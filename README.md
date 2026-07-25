@@ -40,3 +40,4 @@ poetry run pytest
 
 1.  Установите зависимости: `poetry install`
 2.  Запустите приложение: `poetry run python main.py`
+Final submit: flake8, mypy, tests pass
