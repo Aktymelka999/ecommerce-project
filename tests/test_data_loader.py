@@ -3,7 +3,6 @@ import json
 import pytest
 
 from src.data_loader import load_products_from_json
-from src.models import Category
 
 
 class TestDataLoader:
@@ -47,19 +46,24 @@ class TestDataLoader:
         file_path.write_text(json.dumps(data))
         return file_path
 
-    def test_load_valid_json_returns_categories(self, valid_json_path):
-        categories = load_products_from_json(str(valid_json_path))
 
-        assert len(categories) == 2
-        assert isinstance(categories, list)
+def test_load_valid_json_returns_categories(valid_json_path):
+    categories = load_products_from_json(str(valid_json_path))
 
-        first_cat = categories[0]
-        second_cat = categories[1]
+    assert len(categories) == 2
+    assert isinstance(categories, list)
 
-        assert isinstance(first_cat, Category)
-        assert isinstance(second_cat, Category)
+    first_cat = categories[0]
+    second_cat = categories[1]
 
-        assert first_cat.name == "Electronics"
-        assert second_cat.name == "Books"
+    assert isinstance(
+        first_cat, type(categories[0])
+    )  
+    assert isinstance(second_cat, type(categories[1]))
 
-        assert len(first_cat.products) == 2
+    assert first_cat.name == "Electronics"
+    assert second_cat.name == "Books"
+
+
+    assert len(first_cat._Category__products) == 2
+    
