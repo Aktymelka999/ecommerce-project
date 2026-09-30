@@ -34,6 +34,14 @@ class Product:
 
         self.__price = new_price
 
+    def __str__(self) -> str:
+        return f"{self.name}, {self.__price:.2f} руб. Остаток: {self.stock} шт."
+
+    def __add__(self, other: "Product") -> float:
+        if not isinstance(other, Product):
+            raise TypeError("Можно складывать только объекты Product")
+        return (self.__price * self.stock) + (other.__price * other.stock)
+
     @classmethod
     def new_product(
         cls,
@@ -57,8 +65,27 @@ class Product:
         return new
 
 
+class ProductIterator:
+    """Итератор для перебора товаров категории."""
+
+    def __init__(self, category: "Category") -> None:
+        self._products = list(category.products)
+        self._index = 0
+
+    def __iter__(self) -> "ProductIterator":
+        return self
+
+    def __next__(self) -> Product:
+        if self._index >= len(self._products):
+            raise StopIteration
+        item = self._products[self._index]
+        self._index += 1
+        return item
+
+
 class Category:
     product_count: int = 0
+    category_count: int = 0
 
     def __init__(
         self,
@@ -70,16 +97,19 @@ class Category:
         self.description = description
         self.__products: List[Product] = products if products is not None else []
 
+        Category.category_count += 1
+
     def add_product(self, product: Product) -> None:
         self.__products.append(product)
         Category.product_count += 1
 
     @property
-    def products(self) -> str:
-        result = ""
-        for p in self.__products:
-            result += f"{p.name}, {p.price} руб. Остаток: {p.stock} шт.\n"
-        return result
+    def products(self) -> List[Product]:
+        return list(self.__products)
+
+    def __str__(self) -> str:
+        total_quantity = sum(p.stock for p in self.__products)
+        return f"{self.name}, количество продуктов: {total_quantity} шт."
 
     @classmethod
     def new_product(cls, product_data: Dict[str, Any]) -> Product:
