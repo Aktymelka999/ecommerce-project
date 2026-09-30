@@ -50,9 +50,26 @@ def main():
     print(f"Количество категорий: {Category.category_count}")
     print(f"Общее количество товаров: {Category.product_count}")
 
-    # Исправлено: внешние кавычки двойные, чтобы не экранировать одинарные внутри
+    print("\n--- Строковое представление категорий ---")
+    print(category_phones)
+    print(category_tvs)
+
+    print("\n--- Строковое представление товаров ---")
+    for p in category_phones.products:
+        print(p)
+    for p in category_tvs.products:
+        print(p)
+
+    print("\n--- Проверка магического метода сложения (__add__) ---")
+    total_value_pair = product1 + product2
+    print(f"{product1.name} + {product2.name} = {total_value_pair:.2f} руб.")
+
+    total_value_mixed = product3 + product4
+    print(f"{product3.name} + {product4.name} = {total_value_mixed:.2f} руб.")
+
+    print("\n--- Статистика по категориям ---")
     print(
-        f"\nВ категории '{category_phones.name}' товаров: {len(category_phones.products)}"
+        f"В категории '{category_phones.name}' товаров: {len(category_phones.products)}"
     )
     print(f"В категории '{category_tvs.name}' товаров: {len(category_tvs.products)}")
 
