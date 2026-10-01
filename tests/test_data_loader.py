@@ -56,14 +56,10 @@ def test_load_valid_json_returns_categories(valid_json_path):
     first_cat = categories[0]
     second_cat = categories[1]
 
-    assert isinstance(
-        first_cat, type(categories[0])
-    )  
+    assert isinstance(first_cat, type(categories[0]))
     assert isinstance(second_cat, type(categories[1]))
 
     assert first_cat.name == "Electronics"
     assert second_cat.name == "Books"
 
-
     assert len(first_cat._Category__products) == 2
-    
